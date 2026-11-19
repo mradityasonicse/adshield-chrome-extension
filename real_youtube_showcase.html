@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube - AdShield Pro Real Capture</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1280px;
+      height: 800px;
+      overflow: hidden;
+      background: #0f0f0f;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* =========================================================
+       CHROME BROWSER TOP FRAME & TABS
+       ========================================================= */
+    .chrome-titlebar {
+      height: 38px;
+      background: #202124;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 12px;
+      user-select: none;
+      border-bottom: 1px solid #303134;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+      margin-right: 6px;
+    }
+    .w-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .w-red { background: #ff5f56; }
+    .w-yellow { background: #ffbd2e; }
+    .w-green { background: #27c93f; }
+
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      height: 100%;
+      padding-top: 6px;
+    }
+
+    .c-tab {
+      height: 32px;
+      background: #2d2e31;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      font-size: 12px;
+      color: #e8eaed;
+      max-width: 240px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      border: 1px solid #3c4043;
+      border-bottom: none;
+    }
+    .c-tab svg { width: 14px; height: 14px; fill: #ef4444; flex-shrink: 0; }
+
+    .c-tab-inactive {
+      height: 30px;
+      color: #9aa0a6;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      font-size: 11.5px;
+    }
+
+    /* Chrome Navigation Bar */
+    .chrome-nav-bar {
+      height: 42px;
+      background: #292a2d;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 12px;
+      border-bottom: 1px solid #1f2023;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      color: #9aa0a6;
+    }
+    .nav-buttons svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .url-omnibox {
+      flex: 1;
+      height: 28px;
+      background: #1f2023;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 8px;
+      font-size: 12px;
+      color: #e8eaed;
+      border: 1px solid #3c4043;
+    }
+    .url-omnibox .lock { color: #10b981; }
+    .url-omnibox .domain { color: #fff; font-weight: 500; }
+    .url-omnibox .path { color: #9aa0a6; }
+
+    .extension-tray {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .adshield-toolbar-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+      cursor: pointer;
+      position: relative;
+    }
+    .adshield-toolbar-icon svg { width: 16px; height: 16px; stroke: #fff; }
+    .ext-badge-num {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 10px;
+      border: 1px solid #292a2d;
+    }
+
+    .user-avatar-mini {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #6366f1;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       REAL YOUTUBE PAGE LAYOUT
+       ========================================================= */
+    .yt-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #0f0f0f;
+      color: #f1f1f1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Real YouTube Header */
+    .yt-header {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid #272727;
+      background: #0f0f0f;
+    }
+
+    .yt-logo-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .yt-menu-icon {
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .yt-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+    .yt-logo-red {
+      width: 26px;
+      height: 18px;
+      background: #ef4444;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .yt-logo-red svg { width: 10px; height: 10px; fill: #fff; }
+    .yt-country-badge { font-size: 10px; color: #aaa; margin-top: -6px; }
+
+    .yt-search-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 480px;
+    }
+
+    .yt-search-input-wrap {
+      flex: 1;
+      display: flex;
+      height: 38px;
+      border: 1px solid #303030;
+      border-radius: 40px;
+      overflow: hidden;
+      background: #121212;
+    }
+    .yt-search-input-wrap input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0 16px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    .yt-search-btn {
+      width: 56px;
+      background: #222222;
+      border: none;
+      border-left: 1px solid #303030;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+    }
+    .yt-search-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    .yt-mic-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #222222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .yt-mic-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    .yt-right-tools {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .yt-create-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #272727;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Main YouTube Video Content */
+    .yt-content-grid {
+      flex: 1;
+      display: flex;
+      padding: 18px 24px;
+      gap: 24px;
+      overflow: hidden;
+    }
+
+    .yt-video-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Real Video Player Box with Background Image */
+    .yt-player {
+      width: 100%;
+      height: 440px;
+      background: #000;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .yt-player-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.88;
+    }
+
+    .yt-adshield-pill {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(16, 185, 129, 0.6);
+      border-radius: 20px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #10b981;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+      z-index: 5;
+    }
+    .adshield-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Real YouTube Video Player Controls Bar */
+    .yt-player-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+      padding: 12px 16px 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .yt-scrub-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+    }
+    .yt-scrub-fill {
+      width: 48%;
+      height: 100%;
+      background: #ef4444;
+      border-radius: 2px;
+      position: relative;
+    }
+    .yt-scrub-fill::after {
+      content: "";
+      position: absolute;
+      right: -5px;
+      top: -4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.9);
+    }
+
+    .yt-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+      font-size: 12.5px;
+    }
+    .yt-controls-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .yt-btn-icon svg { width: 18px; height: 18px; fill: #fff; cursor: pointer; }
+    .yt-time-text { font-size: 12px; color: #ddd; margin-left: 4px; font-weight: 500; }
+
+    .yt-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Real Video Title & Metadata */
+    .yt-video-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f1f1f1;
+      line-height: 1.3;
+    }
+
+    .yt-channel-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .yt-channel-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .yt-channel-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .yt-channel-meta h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .yt-verified-check {
+      color: #aaa;
+      font-size: 11px;
+    }
+    .yt-channel-meta p {
+      font-size: 12px;
+      color: #aaa;
+    }
+    .yt-subscribe-btn {
+      background: #f1f1f1;
+      color: #0f0f0f;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 12px;
+      cursor: pointer;
+    }
+
+    .yt-action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .yt-act-pill {
+      background: #272727;
+      color: #f1f1f1;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 12.5px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Recommended Sidebar */
+    .yt-sidebar {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rec-video-card {
+      display: flex;
+      gap: 10px;
+    }
+    .rec-thumb {
+      width: 130px;
+      height: 74px;
+      border-radius: 8px;
+      background: #222;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .rec-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .rec-time {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.8);
+      font-size: 10px;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+    .rec-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .rec-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #f1f1f1;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .rec-channel { font-size: 11px; color: #aaa; }
+    .rec-views { font-size: 11px; color: #aaa; }
+
+    /* =========================================================
+       AUTHENTIC EXTENSION POPUP OVERLAY
+       ========================================================= */
+    .popup-extension-overlay {
+      position: absolute;
+      top: 80px;
+      right: 28px;
+      width: 350px;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(25px);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.25);
+      z-index: 100;
+      animation: dropIn 0.2s ease-out;
+    }
+
+    .pop-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+    .pop-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pop-brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+    .pop-brand-icon svg { width: 20px; height: 20px; stroke: #fff; }
+    .pop-brand-text h2 { font-size: 15px; font-weight: 800; color: #fff; }
+    .pop-brand-text h2 span { color: #10b981; }
+    .pop-brand-text p { font-size: 11px; color: #10b981; font-weight: 600; }
+
+    .pop-shield-btn {
+      width: 68px;
+      height: 68px;
+      margin: 4px auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, #059669 0%, #064e3b 100%);
+      border: 3px solid #10b981;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pop-shield-btn svg { width: 34px; height: 34px; stroke: #fff; }
+
+    .pop-site-bar {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pop-site-bar strong { font-size: 12.5px; color: #fff; }
+    .pop-site-bar span { font-size: 11px; color: #10b981; font-weight: 500; }
+    .pop-pause-badge {
+      font-size: 10.5px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+
+    .pop-metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .pop-metric-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .pop-metric-card.green {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    .pop-metric-card .num { font-size: 20px; font-weight: 800; color: #fff; }
+    .pop-metric-card.green .num { color: #34d399; }
+    .pop-metric-card .lbl { font-size: 10px; color: #94a3b8; margin-top: 3px; font-weight: 500; }
+
+    .pop-features {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+      font-size: 11.5px;
+      color: #cbd5e1;
+    }
+    .pop-feat-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pop-feat-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .p-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .p-dot.green { background: #10b981; box-shadow: 0 0 6px #10b981; }
+    .p-dot.red { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+    .p-dot.cyan { background: #06b6d4; box-shadow: 0 0 6px #06b6d4; }
+    .p-active-tag {
+      font-size: 10px;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Chrome Top Frame -->
+  <div class="chrome-titlebar">
+    <div class="window-controls">
+      <div class="w-dot w-red"></div>
+      <div class="w-dot w-yellow"></div>
+      <div class="w-dot w-green"></div>
+    </div>
+    <div class="tabs-row">
+      <div class="c-tab">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>Advanced System Architecture & Distributed S...</span>
+      </div>
+      <div class="c-tab-inactive">
+        <span>GitHub &bull; mradityasonicse</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chrome Navigation & Omnibox -->
+  <div class="chrome-nav-bar">
+    <div class="nav-buttons">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+    </div>
+
+    <div class="url-omnibox">
+      <span class="lock">&#128274;</span>
+      <span class="domain">https://www.youtube.com</span>
+      <span class="path">/watch?v=k8s-arch-masterclass</span>
+    </div>
+
+    <div class="extension-tray">
+      <div class="adshield-toolbar-icon" title="AdShield Pro Active">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <div class="ext-badge-num">18</div>
+      </div>
+      <div class="user-avatar-mini">A</div>
+    </div>
+  </div>
+
+  <!-- Real YouTube Viewport -->
+  <div class="yt-viewport">
+    <!-- Real YouTube Header -->
+    <div class="yt-header">
+      <div class="yt-logo-block">
+        <div class="yt-menu-icon">&#9776;</div>
+        <div class="yt-logo-wrap">
+          <div class="yt-logo-red">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span>YouTube</span>
+          <span class="yt-country-badge">IN</span>
+        </div>
+      </div>
+
+      <div class="yt-search-block">
+        <div class="yt-search-input-wrap">
+          <input type="text" value="Advanced System Architecture 2026" readonly>
+          <button class="yt-search-btn">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </button>
+        </div>
+        <div class="yt-mic-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </div>
+      </div>
+
+      <div class="yt-right-tools">
+        <div class="yt-create-btn">+ Create</div>
+        <div style="font-size: 16px; cursor: pointer;">&#128276;</div>
+        <img class="yt-channel-avatar" style="width: 32px; height: 32px;" src="file:///D:/avatar.jpg" alt="Profile">
+      </div>
+    </div>
+
+    <!-- YouTube Content Grid -->
+    <div class="yt-content-grid">
+      <!-- Main Video Column -->
+      <div class="yt-video-column">
+        <div class="yt-player">
+          <img class="yt-player-bg" src="file:///D:/tech_video.jpg" alt="Video frame">
+          
+          <div class="yt-adshield-pill">
+            <span class="adshield-dot"></span>
+            <span>AdShield Pro &bull; Zero Ads &bull; 1080p HD Streaming</span>
+          </div>
+
+          <div class="yt-player-controls">
+            <div class="yt-scrub-bar">
+              <div class="yt-scrub-fill"></div>
+            </div>
+            <div class="yt-controls-row">
+              <div class="yt-controls-left">
+                <div class="yt-btn-icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                <div class="yt-btn-icon"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></div>
+                <div class="yt-btn-icon"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></div>
+                <span class="yt-time-text">14:22 / 32:40</span>
+              </div>
+              <div class="yt-controls-right">
+                <span style="font-size: 11px; background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 3px;">HD</span>
+                <div class="yt-btn-icon"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="yt-video-title">Advanced System Architecture & Distributed High-Throughput Engineering Masterclass</h1>
+
+        <div class="yt-channel-row">
+          <div class="yt-channel-info">
+            <img class="yt-channel-avatar" src="file:///D:/avatar.jpg" alt="Channel avatar">
+            <div class="yt-channel-meta">
+              <h3>Aditya Soni <span class="yt-verified-check">&#10004;</span></h3>
+              <p>1.42M subscribers</p>
+            </div>
+            <button class="yt-subscribe-btn">Subscribe</button>
+          </div>
+
+          <div class="yt-action-buttons">
+            <div class="yt-act-pill">&#128077; 84K | &#128078;</div>
+            <div class="yt-act-pill">&#10150; Share</div>
+            <div class="yt-act-pill">&#8681; Download</div>
+            <div class="yt-act-pill">&bull;&bull;&bull;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube Recommended Videos Sidebar -->
+      <div class="yt-sidebar">
+        <div class="rec-video-card">
+          <div class="rec-thumb">
+            <img src="file:///D:/tech_video.jpg" alt="thumb">
+            <span class="rec-time">18:20</span>
+          </div>
+          <div class="rec-info">
+            <p class="rec-title">Building Manifest V3 Browser Extensions from Scratch</p>
+            <p class="rec-channel">Aditya Soni</p>
+            <p class="rec-views">240K views &bull; 3 days ago</p>
+          </div>
+        </div>
+
+        <div class="rec-video-card">
+          <div class="rec-thumb">
+            <img src="file:///D:/sony_headphones.jpg" alt="thumb">
+            <span class="rec-time">12:05</span>
+          </div>
+          <div class="rec-info">
+            <p class="rec-title">Top Tech Products for Developers in 2026</p>
+            <p class="rec-channel">Tech Review HQ</p>
+            <p class="rec-views">510K views &bull; 1 week ago</p>
+          </div>
+        </div>
+
+        <div class="rec-video-card">
+          <div class="rec-thumb">
+            <img src="file:///D:/macbook.jpg" alt="thumb">
+            <span class="rec-time">22:45</span>
+          </div>
+          <div class="rec-info">
+            <p class="rec-title">Full-Stack Cloud Architecture on Kubernetes</p>
+            <p class="rec-channel">DevOps Pro</p>
+            <p class="rec-views">180K views &bull; 2 weeks ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authentic AdShield Pro Extension Popup Dropped Down -->
+    <div class="popup-extension-overlay">
+      <div class="pop-head">
+        <div class="pop-brand">
+          <div class="pop-brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="pop-brand-text">
+            <h2>AdShield <span>PRO</span></h2>
+            <p>PROTECTION ACTIVE</p>
+          </div>
+        </div>
+        <div style="color: #64748b; font-size: 16px;">&#9881;</div>
+      </div>
+
+      <div class="pop-shield-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+
+      <div class="pop-site-bar">
+        <div>
+          <strong>youtube.com</strong><br>
+          <span>Shield Enabled</span>
+        </div>
+        <span class="pop-pause-badge">Pause</span>
+      </div>
+
+      <div class="pop-metrics-grid">
+        <div class="pop-metric-card green">
+          <div class="num">18</div>
+          <div class="lbl">Blocked On Page</div>
+        </div>
+        <div class="pop-metric-card">
+          <div class="num">1,420</div>
+          <div class="lbl">Total Blocked</div>
+        </div>
+      </div>
+
+      <div class="pop-features">
+        <div class="pop-feat-line">
+          <div class="pop-feat-left">
+            <span class="p-dot green"></span>
+            <span>216 DNR Dynamic Rules</span>
+          </div>
+          <span class="p-active-tag">Active</span>
+        </div>
+        <div class="pop-feat-line">
+          <div class="pop-feat-left">
+            <span class="p-dot red"></span>
+            <span>YouTube Ad Auto-Skipper</span>
+          </div>
+          <span class="p-active-tag">Active</span>
+        </div>
+        <div class="pop-feat-line">
+          <div class="pop-feat-left">
+            <span class="p-dot cyan"></span>
+            <span>Cosmetic DOM Collapser</span>
+          </div>
+          <span class="p-active-tag">Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
