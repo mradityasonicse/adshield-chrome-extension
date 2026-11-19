@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdShield Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="extension-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>AdShield <span>PRO</span></h1>
+          <p id="shieldStatusText">Protection Active</p>
+        </div>
+      </div>
+      <button id="openOptionsBtn" class="icon-btn" title="Open Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Main Shield Toggle Hero -->
+    <section class="hero-section">
+      <div class="shield-button-wrapper">
+        <button id="masterToggleBtn" class="shield-toggle-btn active" title="Toggle Protection" aria-label="Toggle Protection">
+          <div class="pulse-ring"></div>
+          <div class="shield-glyph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path class="shield-check" d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <div class="site-card">
+        <div class="site-info">
+          <div class="site-domain-wrapper">
+            <span class="site-icon">🌐</span>
+            <span id="siteDomain" class="site-domain">loading...</span>
+          </div>
+          <span id="siteBadge" class="badge-status protected">Protected</span>
+        </div>
+        <button id="whitelistToggleBtn" class="toggle-site-btn" title="Toggle whitelist for this website">
+          <span class="btn-text">Pause on this site</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Live Telemetry Grid -->
+    <section class="telemetry-grid">
+      <div class="telemetry-card highlight">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/>
+            <line x1="12" y1="2" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span id="pageBlockedCount" class="counter-value">0</span>
+          <span class="counter-label">Blocked On Page</span>
+        </div>
+      </div>
+
+      <div class="telemetry-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span id="totalBlockedCount" class="counter-value">0</span>
+          <span class="counter-label">All-Time Blocked</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Savings & Efficiency Metrics -->
+    <section class="efficiency-row">
+      <div class="metric-pill">
+        <span class="metric-label">Data Saved:</span>
+        <span id="dataSavedValue" class="metric-val">0 KB</span>
+      </div>
+      <div class="metric-pill">
+        <span class="metric-label">Time Saved:</span>
+        <span id="timeSavedValue" class="metric-val">0.0s</span>
+      </div>
+    </section>
+
+    <!-- Feature Status Checklist -->
+    <section class="feature-status-list">
+      <div class="feature-item">
+        <div class="feature-left">
+          <span class="bullet-dot emerald"></span>
+          <span class="feature-title">Declarative Network Shield (MV3)</span>
+        </div>
+        <span class="feature-tag">216 Rules</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-left">
+          <span class="bullet-dot red"></span>
+          <span class="feature-title">YouTube Auto Video Ad Skipper</span>
+        </div>
+        <span class="feature-tag">Active</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-left">
+          <span class="bullet-dot cyan"></span>
+          <span class="feature-title">DOM Cosmetic Ad Collapser</span>
+        </div>
+        <span class="feature-tag">Active</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-left">
+          <span class="bullet-dot violet"></span>
+          <span class="feature-title">Anti-Adblock Modal Defuser</span>
+        </div>
+        <span class="feature-tag">Active</span>
+      </div>
+    </section>
+
+    <!-- Footer Actions -->
+    <footer class="app-footer">
+      <span class="version-label">D:\ Drive • Manifest V3</span>
+      <button id="resetStatsBtn" class="text-link-btn">Reset Stats</button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

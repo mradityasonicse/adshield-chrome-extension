@@ -1,0 +1,100 @@
+/* ==========================================================================
+   AdShield Pro - Advanced Cosmetic Ad Collapser & Element Shield
+   High Specificity Zero-Flicker Layout Protection
+   ========================================================================== */
+
+/* --- Google & AdSense Placeholders --- */
+ins.adsbygoogle,
+[id^="google_ads_iframe"],
+[id^="div-gpt-ad"],
+[id*="google_ads"],
+iframe[src*="googlesyndication.com"],
+iframe[src*="doubleclick.net"],
+iframe[src*="adnxs.com"],
+iframe[src*="smartadserver.com"],
+iframe[src*="criteo.com"],
+
+/* --- YouTube Video Ads Banners & Promoted Modules (Keeps .ytp-ad-module visible for skip buttons) --- */
+#player-ads,
+.ytp-ad-overlay-container,
+.ytp-ad-message-container,
+.ytp-ad-action-interstitial,
+ytd-promoted-sparkles-web-renderer,
+ytd-promoted-video-renderer,
+ytd-in-feed-ad-layout-renderer,
+ytd-ad-slot-renderer,
+ytd-banner-promo-renderer,
+#masthead-ad,
+ytd-display-ad-renderer,
+ytd-statement-banner-renderer,
+ytd-action-companion-ad-renderer,
+.ytd-mealbar-promo-renderer,
+ytd-compact-promoted-video-renderer,
+
+/* --- Google Search Sponsored Results --- */
+#taw,
+div[data-text-ad],
+.uEierd,
+.commercial-unit-desktop-top,
+.commercial-unit-desktop-rhs,
+
+/* --- Native Clickbait & Widget Networks (Taboola / Outbrain / Revcontent / Mgid) --- */
+div[id^="taboola-"],
+.trc_related_container,
+.trc_rbox_div,
+.OUTBRAIN,
+div[class*="outbrain"],
+div[id^="outbrain"],
+.revcontent,
+.mgid-container,
+.zergnet-widget,
+
+/* --- Social Media Sponsored Posts (Reddit, Twitter/X) --- */
+shreddit-ad-post,
+.promotedlink,
+[data-testid="placementTracking"],
+
+/* --- Generic Ad Wrappers, Floating Banners & Overlays --- */
+[class*="ad-banner"],
+[class*="ad-container"],
+[class*="ad-wrapper"],
+[class*="ad-slot"],
+[class*="advertisement"],
+[class*="sponsored-post"],
+[id*="ad-container"],
+[id*="ad-banner"],
+[id*="ad_wrapper"],
+[id*="ad-slot"],
+[aria-label="advertisement" i],
+[aria-label="sponsored" i],
+[data-ad-unit],
+[data-ad-slot],
+[data-ad-client],
+.ad-placeholder,
+.ad-unit,
+.ads-holder,
+.top-ad,
+.bottom-ad,
+.sidebar-ad,
+div[class*="floating-ad"],
+div[class*="sticky-ad"],
+div[class*="corner-ad"],
+.advert-box,
+.ad-box,
+.ad-area,
+.ad-leaderboard,
+.ad-rectangle,
+.ad-skyscraper {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

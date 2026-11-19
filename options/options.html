@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdShield Pro - Settings & Whitelist</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <h1>AdShield Pro <span>Settings</span></h1>
+          <p>Configure protection rules, custom whitelists, and telemetry</p>
+        </div>
+      </div>
+      <div class="header-badge">D:\ Drive Production Build</div>
+    </header>
+
+    <main class="options-grid">
+      <!-- Whitelist Manager Section -->
+      <section class="settings-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🛡️</span>
+            <h2>Whitelisted Websites</h2>
+          </div>
+          <span id="whitelistCountBadge" class="count-badge">0 Domains</span>
+        </div>
+        <p class="card-desc">
+          Websites in this list will bypass network blocking and cosmetic filtering. Ads will load normally on these domains.
+        </p>
+
+        <form id="addWhitelistForm" class="input-form">
+          <input 
+            type="text" 
+            id="whitelistInput" 
+            placeholder="example.com or news.site.org" 
+            autocomplete="off" 
+            required
+          />
+          <button type="submit" class="btn-primary">Add Domain</button>
+        </form>
+
+        <div class="list-wrapper">
+          <ul id="whitelistUl" class="domain-list">
+            <li class="empty-state">No whitelisted domains yet.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Protection Status & Diagnostic Info -->
+      <section class="settings-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">📊</span>
+            <h2>Engine Diagnostics</h2>
+          </div>
+        </div>
+        <p class="card-desc">Real-time status of your local Manifest V3 DeclarativeNetRequest filter engine.</p>
+
+        <div class="stats-summary-grid">
+          <div class="stat-box">
+            <span class="stat-num" id="diagTotalBlocked">0</span>
+            <span class="stat-lbl">Lifetime Ads Blocked</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">216</span>
+            <span class="stat-lbl">Network Filter Rules</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">50+</span>
+            <span class="stat-lbl">Cosmetic CSS Selectors</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">Active</span>
+            <span class="stat-lbl">YouTube Video Skipper</span>
+          </div>
+        </div>
+
+        <div class="danger-zone">
+          <h3>Data Management</h3>
+          <p>Export your settings or reset local telemetry counters.</p>
+          <div class="danger-actions">
+            <button id="exportSettingsBtn" class="btn-secondary">Export Configuration</button>
+            <button id="resetAllBtn" class="btn-danger">Clear All History</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="options-footer">
+      <p>AdShield Pro v1.0.0 • Pure Manifest V3 DeclarativeNetRequest Architecture • Zero Analytics Tracking</p>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
