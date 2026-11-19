@@ -1,5 +1,7 @@
 # AdShield Pro
 
+![AdShield Pro Live Preview](screenshot.png)
+
 An ad blocker extension built with Chrome Manifest V3 and DeclarativeNetRequest.
 
 ## Features
